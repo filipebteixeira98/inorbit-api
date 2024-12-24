@@ -15,6 +15,13 @@
       "when": 1734677420744,
       "tag": "0001_windy_alex_power",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735015729257,
+      "tag": "0002_gray_ares",
+      "breakpoints": true
     }
   ]
 }
