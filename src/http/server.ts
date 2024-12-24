@@ -8,6 +8,7 @@ import {
 import { fastifyCors } from '@fastify/cors'
 import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
+import fastifyJwt from '@fastify/jwt'
 
 import { createGoalRoute } from './routes/create-goal'
 import { createCompletionRoute } from './routes/create-completion'
@@ -15,10 +16,16 @@ import { getPendingGoalsRoute } from './routes/get-pending-goals'
 import { getWeekSummaryRoute } from './routes/get-week-summary'
 import { authenticateFromGithubRoute } from './routes/authenticate-from-github'
 
+import { env } from '../env'
+
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.register(fastifyCors, {
   origin: '*',
+})
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
 })
 
 app.setValidatorCompiler(validatorCompiler)
