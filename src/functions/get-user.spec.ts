@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { eq } from 'drizzle-orm'
 
 import { database } from '../db'
 
@@ -7,6 +8,10 @@ import { users } from '../db/schema'
 import { getUser } from './get-user'
 
 describe('get user', () => {
+  beforeEach(async () => {
+    await database.delete(users).where(eq(users.id, 'john-doe'))
+  })
+
   it('should be able to get a user', async () => {
     const [user] = await database
       .insert(users)
