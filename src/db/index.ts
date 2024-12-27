@@ -7,4 +7,7 @@ import * as schema from './schema'
 
 export const client = postgres(env.DATABASE_URL)
 
-export const database = drizzle(client, { schema, logger: true })
+export const database = drizzle(client, {
+  schema,
+  logger: env.NODE_ENV === 'development',
+})
