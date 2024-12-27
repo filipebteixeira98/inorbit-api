@@ -15,6 +15,7 @@ import { createCompletionRoute } from './routes/create-completion'
 import { getPendingGoalsRoute } from './routes/get-pending-goals'
 import { getWeekSummaryRoute } from './routes/get-week-summary'
 import { authenticateFromGithubRoute } from './routes/authenticate-from-github'
+import { getProfileRoute } from './routes/get-profile'
 
 import { env } from '../env'
 
@@ -55,6 +56,8 @@ app.register(createCompletionRoute)
 app.register(getWeekSummaryRoute)
 
 app.register(authenticateFromGithubRoute)
+
+app.register(getProfileRoute)
 
 app
   .listen({
