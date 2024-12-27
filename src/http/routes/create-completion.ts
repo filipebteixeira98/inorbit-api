@@ -19,9 +19,12 @@ export const createCompletionRoute: FastifyPluginAsyncZod = async app => {
       },
     },
     async (request, reply) => {
+      const userId = request.user.sub
+
       const { goalId } = request.body
 
       await createGoalCompletion({
+        userId,
         goalId,
       })
 
