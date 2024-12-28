@@ -40,5 +40,7 @@ async function seed() {
 }
 
 seed().finally(() => {
+  console.log('🌱 Database seeded successfully!')
+
   client.end()
 })
