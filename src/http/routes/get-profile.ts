@@ -4,7 +4,7 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { getUser } from '../../functions/get-user'
 
 export const getProfileRoute: FastifyPluginAsyncZod = async app => {
-  app.post(
+  app.get(
     '/profile',
     {
       schema: {
