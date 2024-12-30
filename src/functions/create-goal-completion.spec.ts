@@ -50,7 +50,10 @@ describe('create goal completion', () => {
 
     const goal = await makeGoal({ userId: user.id, desiredWeeklyFrequency: 5 })
 
-    await makeGoalCompletion({ goalId: goal.id })
+    await createGoalCompletion({
+      userId: user.id,
+      goalId: goal.id,
+    })
 
     const [userOnDatabase] = await database
       .select()
@@ -60,11 +63,21 @@ describe('create goal completion', () => {
     expect(userOnDatabase.experience).toEqual(5)
   })
 
-  it.skip('should increase user experience by 7 when fully completing a goal', async () => {
-    const user = await makeUser()
+  it('should increase user experience by 7 when fully completing a goal', async () => {
+    const user = await makeUser({ experience: 0 })
 
-    const goal = await makeGoal({ userId: user.id, desiredWeeklyFrequency: 5 })
+    const goal = await makeGoal({ userId: user.id, desiredWeeklyFrequency: 1 })
 
-    await makeGoalCompletion({ goalId: goal.id })
+    await createGoalCompletion({
+      userId: user.id,
+      goalId: goal.id,
+    })
+
+    const [userOnDatabase] = await database
+      .select()
+      .from(users)
+      .where(eq(users.id, user.id))
+
+    expect(userOnDatabase.experience).toEqual(7)
   })
 })
