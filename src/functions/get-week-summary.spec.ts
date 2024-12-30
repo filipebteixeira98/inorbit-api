@@ -19,12 +19,14 @@ describe('get week summary', () => {
       userId: user.id,
       title: 'Wake up early',
       desiredWeeklyFrequency: 7,
+      createdAt: weekStartsAt,
     })
 
     const secondGoal = await makeGoal({
       userId: user.id,
       title: 'Go to gym',
       desiredWeeklyFrequency: 7,
+      createdAt: weekStartsAt,
     })
 
     await makeGoalCompletion({
@@ -41,8 +43,6 @@ describe('get week summary', () => {
       userId: user.id,
       weekStartsAt,
     })
-
-    console.log(result)
 
     expect(result).toEqual({
       summary: {
