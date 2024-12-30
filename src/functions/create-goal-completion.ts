@@ -3,7 +3,7 @@ import { and, count, eq, gte, lte, sql } from 'drizzle-orm'
 
 import { database } from '../db'
 
-import { goalCompletions, goals } from '../db/schema'
+import { goalCompletions, goals, users } from '../db/schema'
 
 interface CreateGoalCompletionRequest {
   userId: string
@@ -56,12 +56,26 @@ export async function createGoalCompletion({
     throw new Error('Goal already completed this week!')
   }
 
-  const insertResult = await database
-    .insert(goalCompletions)
-    .values({ goalId })
-    .returning()
+  const isLastCompletionFromGoal =
+    completionCount + 1 === desiredWeeklyFrequency
 
-  const goalCompletion = insertResult[0]
+  const earnedExperience = isLastCompletionFromGoal ? 7 : 5
+
+  const goalCompletion = await database.transaction(async transaction => {
+    const [goalCompletion] = await database
+      .insert(goalCompletions)
+      .values({ goalId })
+      .returning()
+
+    await database
+      .update(users)
+      .set({
+        experience: sql`${users.experience} + ${earnedExperience}`,
+      })
+      .where(eq(users.id, userId))
+
+    return goalCompletion
+  })
 
   return {
     goalCompletion,
