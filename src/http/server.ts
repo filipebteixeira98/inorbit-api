@@ -9,6 +9,8 @@ import { fastifyCors } from '@fastify/cors'
 import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
 import fastifyJwt from '@fastify/jwt'
+import { resolve } from 'node:path'
+import { writeFile } from 'node:fs/promises'
 
 import { createGoalRoute } from './routes/create-goal'
 import { createCompletionRoute } from './routes/create-completion'
@@ -69,3 +71,15 @@ app
   .then(() => {
     console.log('🚀 Server is running at http://localhost:3333/')
   })
+
+if (env.NODE_ENV === 'development') {
+  const specFile = resolve(__dirname, '../../swagger.json')
+
+  app.ready().then(() => {
+    const spec = JSON.stringify(app.swagger(), null, 2)
+
+    writeFile(specFile, spec).then(() => {
+      console.log('🖥️ Swagger spec generated!')
+    })
+  })
+}
