@@ -13,6 +13,7 @@ export const getPendingGoalsRoute: FastifyPluginAsyncZod = async app => {
       schema: {
         tags: ['goals'],
         description: 'Get pending goals',
+        operationId: 'getPendingGoals',
         response: {
           200: z.object({
             pendingGoals: z.array(
