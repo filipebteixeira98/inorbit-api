@@ -6,7 +6,7 @@ import { getUserLevelAndExperience } from './get-user-level-and-experience'
 
 import {
   calculateLevelFromExperience,
-  calculateTotalExperienceForLevel,
+  calculateExperienceForNextLevel,
 } from '../modules/gamification'
 
 describe('get user level and experience', () => {
@@ -22,7 +22,7 @@ describe('get user level and experience', () => {
     expect(sut).toEqual({
       experience: 200,
       level,
-      experienceToNextLevel: calculateTotalExperienceForLevel(level),
+      experienceToNextLevel: calculateExperienceForNextLevel(level),
     })
   })
 })
