@@ -10,6 +10,13 @@ export function calculateLevelFromExperience(experience: number) {
     ) + 1
   )
 }
+
+export function calculateExperienceForNextLevel(level: number) {
+  return Math.floor(
+    BASE_EXPERIENCE *
+      ((EXPERIENCE_FACTOR ** level - 1) / (EXPERIENCE_FACTOR - 1))
+  )
+}
 export function calculateExperienceToLevel(level: number) {
   if (level === 1) return 0
 
