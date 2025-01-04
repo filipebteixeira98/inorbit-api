@@ -1,49 +1,30 @@
 import { expect, test } from 'vitest'
 
 import {
-  calculateExperienceToLevel,
   calculateLevelFromExperience,
-  calculateTotalExperienceForLevel,
+  calculateExperienceForNextLevel,
 } from './gamification'
 
-test('experience to level', () => {
-  const firstExperience = calculateExperienceToLevel(1)
-
-  const secondExperience = calculateExperienceToLevel(2)
-
-  const fourthExperience = calculateExperienceToLevel(4)
-
-  expect(firstExperience).toEqual(0)
-
-  expect(secondExperience).toEqual(26)
-
-  expect(fourthExperience).toEqual(43)
-})
-
 test('total experience to level', () => {
-  const firstExperience = calculateTotalExperienceForLevel(1)
+  const firstExperience = calculateExperienceForNextLevel(1)
 
-  const secondExperience = calculateTotalExperienceForLevel(2)
+  const secondExperience = calculateExperienceForNextLevel(2)
 
-  const thirdExperience = calculateTotalExperienceForLevel(3)
+  const fourthExperience = calculateExperienceForNextLevel(4)
 
-  const fourthExperience = calculateTotalExperienceForLevel(4)
+  expect(firstExperience).toEqual(20)
 
-  expect(firstExperience).toEqual(0)
+  expect(secondExperience).toEqual(20 + 26)
 
-  expect(secondExperience).toEqual(26)
-
-  expect(thirdExperience).toEqual(26 + 33)
-
-  expect(fourthExperience).toEqual(26 + 33 + 43)
+  expect(fourthExperience).toEqual(20 + 26 + 33)
 })
 
 test('level from experience', () => {
-  const firstLevel = calculateLevelFromExperience(10)
+  const firstLevel = calculateLevelFromExperience(1)
 
-  const secondLevel = calculateLevelFromExperience(27)
+  const secondLevel = calculateLevelFromExperience(2)
 
-  const fourthLevel = calculateLevelFromExperience(26 + 33 + 43)
+  const fourthLevel = calculateLevelFromExperience(3)
 
   expect(firstLevel).toEqual(1)
 
