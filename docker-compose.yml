@@ -2,7 +2,7 @@ name: pocket-js-server
 
 services:
   pg:
-    image: bitnami/postgresql:13.16.0
+    image: postgres:13
     ports:
       - '5432:5432'
     environment:
