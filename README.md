@@ -92,11 +92,8 @@ This starts:
 - PostgreSQL on port `5432`
 
 ```bash
-# Apply the database schema
-npx prisma migrate dev
-
-# If you only want to sync the schema without creating a migration
-npx prisma db push
+# Apply pending migrations to the database
+npx drizzle-kit migrate
 
 # Run the server (The API will be available at: http://localhost:3333)
 npm run dev
