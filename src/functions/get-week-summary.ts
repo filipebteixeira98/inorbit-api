@@ -1,9 +1,12 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { and, desc, eq, gte, lte, sql } from 'drizzle-orm'
 
 import { database } from '../db'
 
 import { goalCompletions, goals } from '../db/schema'
+
+dayjs.extend(utc)
 
 interface GetWeekSummaryRequest {
   userId: string
@@ -14,9 +17,13 @@ export async function getWeekSummary({
   userId,
   weekStartsAt,
 }: GetWeekSummaryRequest) {
-  const firstDayOfWeek = weekStartsAt
+  const firstDayOfWeek = dayjs.utc(weekStartsAt).startOf('day').toDate()
 
-  const lastDayOfWeek = dayjs(weekStartsAt).endOf('week').toDate()
+  const lastDayOfWeek = dayjs
+    .utc(firstDayOfWeek)
+    .add(6, 'day')
+    .endOf('day')
+    .toDate()
 
   const goalsCreatedUpToWeek = database.$with('goals_created_up_to_week').as(
     database
@@ -93,7 +100,7 @@ export async function getWeekSummary({
         sql /*sql*/`(SELECT SUM(${goalsCreatedUpToWeek.desiredWeeklyFrequency}) FROM ${goalsCreatedUpToWeek})`.mapWith(
           Number
         ),
-      goalsPerDay: sql<GoalsPerDay> /*sql*/`
+      goalsPerDay: sql /*sql*/<GoalsPerDay>`
         JSON_OBJECT_AGG(
           ${goalsCompletedByWeekDay.completedAtDate},
           ${goalsCompletedByWeekDay.completions}
